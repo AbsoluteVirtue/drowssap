@@ -9,6 +9,7 @@ verify_ssl = true
 aiohttp = "*"
 pyyaml = "*"
 aiohttp-jinja2 = "*"
+motor = "*"
 
 [requires]
 python_version = "3.8"

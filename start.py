@@ -1,32 +1,45 @@
-from aiohttp import web
-import argparse
-import os.path
 import aiohttp_jinja2
+import asyncio
+import os.path
 import jinja2
 import logging
+from aiohttp import web
 
 from routes import setup_routes
-from settings import get_config, get_logger
+from settings import config, logger, path
+from utils import init_mongo
 
 
-if __name__ == '__main__':
-    app = web.Application()
+async def setup_mongo(app, loop):
+    mgo = await init_mongo(loop)
 
-    parser = argparse.ArgumentParser(description='Process arguments.')
-    parser.add_argument('--config_file', dest='config_file', default='./config/local.yaml', help='config file path')
+    async def close_mongo():
+        mgo.client.close()
 
-    path = parser.parse_args().config_file
+    app.on_cleanup.append(close_mongo)
+    return mgo
 
-    app['config'] = get_config(path)
-    app['logger'] = get_logger()
+
+async def make_app():
+    loop = asyncio.get_event_loop()
+    app = web.Application(loop=loop)
+
+    app['config'] = config
+    app['logger'] = logger
+    app['db'] = await setup_mongo(app, loop)
 
     setup_routes(app)
 
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(os.path.abspath('templates')))
 
+    return app
+
+
+if __name__ == '__main__':
+
     logging.basicConfig(level=logging.INFO)
-    logging.info('Web server started on port %s' % app['config']['port'])
+    logging.info('Web server started on port %s' % config['port'])
     logging.info('Config file: %s' % path)
 
-    web.run_app(app, host=app['config']['host'], port=app['config']['port'],
+    web.run_app(make_app(), host=config['host'], port=config['port'],
                 access_log_format='%t "%r" %s %Tf ms -ip:"%a" -ref:"%{Referer}i"')

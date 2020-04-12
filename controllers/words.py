@@ -1,32 +1,46 @@
 import aiohttp.web
 import aiohttp_jinja2
-import json
 
 from . import base
 import utils.clip_win as clip
+import utils.store_mongo as store
 
 
 class List(base.Base):
 
     async def get(self):
-        data = {'data': [{'_id': '1', 'name': 'a', 'url': 'test.com', 'email': 'a@test.com'}]}
-        response = aiohttp_jinja2.render_template('home.html', self.request, context=data)
-
+        data = await store.get_list(self.request.app['db'])
+        response = aiohttp_jinja2.render_template('home.html', self.request,
+                                                  context={'data': data})
         return response
 
 
 class Generator(base.Base):
 
     async def get(self):
-        data = {'_id': '1', 'name': 'test.com', 'payload': '1s2o3l4o'}
+        _id = self.request.match_info['id']
 
-        pword = data['payload']
+        pword = await store.get_pword(self.request.app['db'], _id)
 
         clip.paste(pword)
 
         location = self.request.app.router['home'].url_for()
-
         raise aiohttp.web.HTTPFound(location=location)
 
     async def post(self):
-        pass
+        payload = {'name': 'a', 'url': 'test.com', 'email': 'a@test.com'}
+
+        await store.insert(self.request.app['db'], **payload)
+
+        location = self.request.app.router['home'].url_for()
+        raise aiohttp.web.HTTPFound(location=location)
+
+    async def patch(self):
+        _id = self.request.match_info['id']
+
+        payload = {}
+
+        await store.update(self.request.app['db'], _id, payload)
+
+        location = self.request.app.router['home'].url_for()
+        raise aiohttp.web.HTTPFound(location=location)
