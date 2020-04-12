@@ -36,12 +36,16 @@
 
         <table>
             <tr>
-                <th>Name</th>
+                <th>URL</th>
+                <th>Username</th>
+                <th>Email</th>
                 <th>Copy</th>
             </tr>
             {% for row in data %}
                 <tr>
+                    <td>{{ row.url }}</td>
                     <td>{{ row.name }}</td>
+                    <td>{{ row.email }}</td>
                     <td>
                         <form action="/gen" method="get">
                             <input type="hidden" value="{{ row._id }}" name="id">
