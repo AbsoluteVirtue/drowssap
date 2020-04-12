@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+        <meta charset="UTF-8">
+        <title>Drow's Sap</title>
+        <link rel="icon" type="image/png" href="/static/img/favicon.png">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+
+        <h2>Saved passwords</h2>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Copy</th>
+            </tr>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td>
+                        <form action="/gen" method="get">
+                            <input type="hidden" value="{{ row._id }}" name="id">
+                            <button type="submit"><i class="fa fa-copy"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
