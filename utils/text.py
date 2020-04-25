@@ -2,7 +2,7 @@ import random
 
 
 def get_word_list():
-    with open('config/oxford.txt', mode='r', encoding="utf8") as txt:
+    with open('config/oxford', mode='r', encoding="utf8") as txt:
         lines = txt.readlines()
         result = [s for s in lines if len(s) >= 5]
 
