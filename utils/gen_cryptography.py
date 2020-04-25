@@ -1,12 +1,10 @@
 from cryptography.fernet import Fernet
 
-
-def build_string():
-    return 'raw_string'
+from . import text
 
 
 def generate_hashed_pword():
-    raw_string = build_string()
+    raw_string = text.build_string()
     key = Fernet.generate_key()
     return encrypt(key, raw_string)
 
