@@ -38,7 +38,7 @@ class Generator(base.Base):
     async def patch(self):
         _id = self.request.match_info['id']
 
-        payload = {}
+        payload = {'name': 'a', 'url': 'test.com', 'email': 'a@test.com'}
 
         await store.update(self.request.app['db'], _id, payload)
 
