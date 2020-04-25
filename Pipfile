@@ -10,6 +10,7 @@ aiohttp = "*"
 pyyaml = "*"
 aiohttp-jinja2 = "*"
 motor = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.8"

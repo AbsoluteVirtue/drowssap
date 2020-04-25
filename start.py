@@ -1,8 +1,8 @@
 import aiohttp_jinja2
 import asyncio
-import os.path
 import jinja2
 import logging
+import os.path
 from aiohttp import web
 
 from routes import setup_routes

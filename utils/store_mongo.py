@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from utils import generator
+from utils import gen_cryptography as generator
 
 
 async def get_list(db, fields=None):
@@ -11,15 +11,17 @@ async def get_list(db, fields=None):
 
 async def get_pword(db, _id):
     data = await db.entries.find_one({'_id': _id})
-    return generator.unhash(data['hash'])
+    return generator.decrypt(data['hash'])
 
 
 async def insert(db, **kwargs):
+    key, token = generator.generate_hashed_pword()
     data = {
         '_id': uuid.uuid4().hex,
         '_valid_': True,
         'ts_inserted': datetime.datetime.now().timestamp(),
-        'hash': generator.generate_hashed_pword(),
+        'token': token,
+        'key': key,
     }
     data.update(kwargs)
     res = await db.entries.insert_one(data)
