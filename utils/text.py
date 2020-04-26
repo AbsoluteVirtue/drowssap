@@ -9,7 +9,7 @@ def get_word_list():
     return result
 
 
-def build_string():
+def build_string(limit=None):
     words = get_word_list()
 
     verb_ = ''
@@ -36,5 +36,8 @@ def build_string():
         pool.append(verb_)
 
     random.shuffle(pool)
+    raw_string = ''.join(pool)
+    if limit:
+        raw_string = raw_string[:int(limit)]
 
-    return ''.join(pool)
+    return raw_string

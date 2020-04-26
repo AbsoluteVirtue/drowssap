@@ -3,8 +3,8 @@ from cryptography.fernet import Fernet
 from . import text
 
 
-def generate_hashed_pword():
-    raw_string = text.build_string()
+def generate_hashed_pword(limit=None):
+    raw_string = text.build_string(limit)
     key = Fernet.generate_key()
     return encrypt(key, raw_string)
 

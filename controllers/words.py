@@ -28,9 +28,14 @@ class Generator(base.Base):
         raise aiohttp.web.HTTPFound(location=location)
 
     async def post(self):
-        payload = {'name': 'a', 'url': 'test.com', 'email': 'a@test.com'}
-
-        await store.insert(self.request.app['db'], **payload)
+        form = await self.request.post()
+        if form.get('name') and form.get('url') and form.get('email'):
+            await store.insert(self.request.app['db'], **{
+                'name': form['name'],
+                'url': form['url'],
+                'email': form['email'],
+                'limit': form.get('limit'),
+            })
 
         location = self.request.app.router['home'].url_for()
         raise aiohttp.web.HTTPFound(location=location)

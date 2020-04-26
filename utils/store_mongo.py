@@ -22,8 +22,8 @@ async def hide(db, _id):
     return res
 
 
-async def insert(db, **kwargs):
-    key, token = generator.generate_hashed_pword()
+async def insert(db, limit=None, **kwargs):
+    key, token = generator.generate_hashed_pword(limit)
     data = {
         '_id': uuid.uuid4().hex,
         '_valid_': True,
