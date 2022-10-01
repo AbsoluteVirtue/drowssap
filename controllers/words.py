@@ -40,7 +40,17 @@ class Generator(base.Base):
         location = self.request.app.router['home'].url_for()
         raise aiohttp.web.HTTPFound(location=location)
 
-    async def patch(self):
+
+class Modificator(base.Base):
+
+    async def get(self):
+        _id = self.request.match_info['id']
+
+        response = aiohttp_jinja2.render_template('mod.html', self.request,
+                                                  context={'data': _id})
+        return response
+
+    async def post(self):
         _id = self.request.match_info['id']
 
         payload = {'name': 'a', 'url': 'test.com', 'email': 'a@test.com'}

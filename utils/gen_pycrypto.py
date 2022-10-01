@@ -4,15 +4,13 @@ from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Util import Counter
 from Crypto import Random
 
+import text
+
 _key_bytes = 32
 
 
-def build_string():
-    return 'raw_string'
-
-
 def generate_hashed_pword():
-    raw_string = build_string()
+    raw_string = text.build_string()
     salt = Random.new().read(8)
     key = PBKDF2(raw_string, salt, _key_bytes)
     return encrypt(key, raw_string)
