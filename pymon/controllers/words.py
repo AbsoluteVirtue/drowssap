@@ -2,7 +2,7 @@ import aiohttp.web
 import aiohttp_jinja2
 
 from . import base
-import utils.clip_win as clip
+# import utils.clip_win as clip
 import utils.store_mongo as store
 
 
@@ -22,7 +22,7 @@ class Generator(base.Base):
 
         pword = await store.get_pword(self.request.app['db'], _id)
 
-        clip.paste(pword)
+        # clip.paste(pword)
 
         location = self.request.app.router['home'].url_for()
         raise aiohttp.web.HTTPFound(location=location)
