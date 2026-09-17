@@ -6,17 +6,17 @@ import (
 	"fmt"
 	"log"
 
-	// "github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main() {
-	// if err := godotenv.Load(); err != nil {
-	// 	log.Println("No .env file found")
-	// }
+// import "github.com/joho/godotenv"
+// if err := godotenv.Load(); err != nil {
+// 	log.Println("No .env file found")
+// }
 
+func main() {
 	// uri := os.Getenv("MONGODB_URI")
 	uri := "mongodb://localhost:27017/?retryWrites=true&w=majority"
 	if uri == "" {
