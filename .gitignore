@@ -167,3 +167,4 @@ fabric.properties
 
 # local files
 test.py
+.vscode/

@@ -8,7 +8,7 @@ def launch_db():
     import sys
 
     p = subprocess.Popen(["powershell.exe",
-                          "mongod --dbpath D:\\mgo\\drow"], stdout=sys.stdout)
+                          "mongod --dbpath E:\\mgo\\drow"], stdout=sys.stdout)
     p.communicate()
 
 
